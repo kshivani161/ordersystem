@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { app } from "../firebase/firebase"; // Import initialized Firebase app
 
@@ -12,8 +12,6 @@ const Register = () => {
     });
     const [errorMessage, setErrorMessage] = useState('');
     const [passwordStrengthMessage, setPasswordStrengthMessage] = useState('');
-
-  
 
     const handleChange = (evt) => {
         const { name, value } = evt.target;
@@ -58,7 +56,7 @@ const Register = () => {
     return (
         <div style={{ backgroundImage: `url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjrN5LeLqngQIyoArjh_623MbQhp80wwyUWQ&s")`, backgroundSize: 'cover', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <div className="container">
-            <div className="row justify-content-center">
+                <div className="row justify-content-center">
                     <div className="col-md-6">
                         <div className="card">
                             <div className="card-body">
