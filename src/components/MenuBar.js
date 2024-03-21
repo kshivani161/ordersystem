@@ -6,6 +6,7 @@ import { app } from "../firebase/firebase"; // Import initialized Firebase app
 const MenuBar = () => {
     // State to store the username
     const [username, setUsername] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
 
     // Function to handle logout
    
@@ -54,17 +55,23 @@ const MenuBar = () => {
                         <li className="nav-item">
                             <Link className="nav-link active" to="logout" >Logout</Link>
                         </li>
-                        {/* <li className="nav-item">
-                            <Link className="nav-link active" to="productpage">Product Pages</Link>
-                        </li> */}
+                        
                         <li className="nav-item">
                             <Link className="nav-link active" to="productlist">Product List</Link>
                         </li>
                     </ul>
-                    <form className="d-flex" role="search">
-                        <input className="form-control me-2" type="search" placeholder="Search a product..." />
-                        <button className="btn btn-outline-dark" type="submit">Search</button>
-                    </form>
+                    {/* <form className="d-flex" role="search"> */}
+                    {/* <div className="search-bar-container">
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search products..."
+                    className="search-bar"
+                />
+                <button className="search-button">Search</button>
+            </div> */}
+                    {/* </form> */}
                 </div>
             </div>
         </nav>
