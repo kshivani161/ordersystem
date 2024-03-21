@@ -31,8 +31,8 @@ const MenuBar = () => {
             <div className="container-fluid">
                 <Link className="navbar-brand" to="" >
                     <img height="60px" title="Home"
-                        src="https://assets.materialup.com/uploads/61d86780-be13-47fa-81a6-226aac22db27/preview.jpg"
-                        alt="deloitte logo" />
+                        src="https://th.bing.com/th/id/R.b61f35a945c9993808f377694023d1e7?rik=euWEeRBWiDMULw&riu=http%3a%2f%2fwww.freevector.com%2fuploads%2fvector%2fpreview%2f10771%2fFreeVector-Shopping-Icon.jpg&ehk=Pp7jjfaLl5oNSilzGApPsnZhPeUB4DJ%2b4ZJ9vYGmMoA%3d&risl=&pid=ImgRaw&r=0"
+                        alt="order logo" />
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
                     <span className="navbar-toggler-icon"></span>
