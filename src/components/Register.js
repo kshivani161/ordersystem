@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { app } from "../firebase/firebase"; // Import initialized Firebase app
+import { auth, firestore } from "../firebase/firebase"; // Import initialized Firebase auth and firestore
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection } from "@firebase/firestore";
 
 const Register = () => {
     const [formData, setFormData] = useState({ 
@@ -39,10 +40,20 @@ const Register = () => {
             return; // Prevent registration if password is weak
         }
         try {
-            const auth = getAuth(app);
             // Create user with email and password
-            await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+            const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+            const user = userCredential.user;
             console.log('User registered successfully');
+
+            // Add user data to Firestore
+            await addDoc(collection(firestore, "users"), {
+                username: formData.username,
+                email: formData.email,
+                password: formData.password,
+                phoneNumber: formData.phoneNumber,
+                address: formData.address
+            });
+
             // Display alert message
             alert('Registered successfully!');
             // Redirect to login page
@@ -54,7 +65,7 @@ const Register = () => {
     };
 
     return (
-        <div style={{ backgroundImage: `url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjrN5LeLqngQIyoArjh_623MbQhp80wwyUWQ&s")`, backgroundSize: 'cover', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="bg-light" style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundImage: `url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjrN5LeLqngQIyoArjh_623MbQhp80wwyUWQ&s")`, backgroundSize: 'cover' }}>
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-md-6">
