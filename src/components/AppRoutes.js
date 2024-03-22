@@ -13,7 +13,7 @@ const AppRoutes = () => {
         <>
             <BrowserRouter>
                 <>
-                    <MenuBar />
+                    {/* <MenuBar /> */}
                 </>
                 <div className='container'>
                     <Routes >

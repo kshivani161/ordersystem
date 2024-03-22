@@ -22,7 +22,7 @@ const Login = () => {
             await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
             console.log('User logged in successfully');
             // Redirect to home page after successful login
-            navigate("/productpage");
+            navigate("/home");
         } catch (error) {
             console.error('Error logging in:', error.message);
             setLoginMessage(error.message);
