@@ -17,8 +17,8 @@ const AppRoutes = () => {
                 </>
                 <div className='container'>
                     <Routes >
-                        
                         <Route exact path='home' element={<Home />} />
+                        <Route exact path='home/:username' element={<Home />} />
                         <Route exact path='productlist' element={<ProductList />} />
                         <Route exact path='productdetails/:productId' element={<ProductDetails />} />
                         <Route exact path='login' element={<Login />} />
@@ -26,7 +26,7 @@ const AppRoutes = () => {
                         <Route exact path='register' element={<Register />} />
                         <Route exact path='productpage' element={<ProductPages />} />
                         <Route exact path='' element={<Home />} />
-                       
+
                     </Routes>
                 </div>
             </BrowserRouter>

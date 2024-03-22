@@ -1,42 +1,15 @@
-import { Link } from "react-router-dom";
-import {auth,firestore} from "../firebase/firebase";
-import React,{useState, useEffect} from 'react';
+import { Link, useParams } from "react-router-dom";
+import React, {  } from 'react';
 import MenuBar from "./MenuBar";
-import { collection,doc } from "@firebase/firestore";
-import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
- 
+
+
 const Home = () => {
-    async function GetCurrentUser()  {
-    const q = query(collection(firestore, "users"), where("user", "==", true));
 
-     const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-  // doc.data() is never undefined for query doc snapshots
-  console.log(doc.id, " => ", doc.data());
-});
-    // const [user, setUser]=useState(null);
-    // useEffect(()=>{
-    //     auth.onAuthStateChanged(user=>{
-    //         if(user){
-    //             doc(firestore,'users',user.uid).get().then(snapshot=>{
-    //                 setUser(snapshot.data().username);
-    //             })
-    //         }
-    //         else{
-    //             setUser(null);
-    //         }
-    //     })
-    // },[])
-    return doc.data;
-}
-
-
-
-const user = GetCurrentUser();
-
+    const userParam = useParams();
 return (
-    <>
-    <MenuBar user={user}/>
+        <>
+            <MenuBar user={userParam.username} />
+            <div style={{ minHeight: "100vh" }}></div>
             <div style={{ minHeight: "100vh" }}>
                 <div style={{ minHeight: "100vh" }} className="row">
                 <div className="col">

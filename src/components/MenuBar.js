@@ -29,7 +29,7 @@ const MenuBar = ({user}) => {
                 </>} 
 
                 {user&&<>
-                    <div><Link className='navlink' to="/">{user}</Link></div>
+                    <div><Link className='navlink' to="home">{user}</Link></div>
                     <li className="nav-item">
                             <Link className="nav-link active" to="productpage">Products</Link>
                         </li>
