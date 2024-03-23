@@ -1,15 +1,19 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth,signOut, onAuthStateChanged } from "firebase/auth";
 import { app } from "../firebase/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from "react-bootstrap";
 const MenuBar = () => {
     const [username, setUsername] = useState('');
     const [cartItems, setCartItems] = useState([]);
+    const [logoutMessage, setLogoutMessage] = useState('');
+    const [userId,setuserId]=useState('');
+    const navigate=useNavigate();
 
     useEffect(() => {
         const auth = getAuth(app);
@@ -17,8 +21,10 @@ const MenuBar = () => {
             if (user) {
             
                 setUsername(user.email);
+                setuserId(user.email);
             } else {
                 setUsername('');
+                setuserId('');
             }
         });
 
@@ -33,7 +39,7 @@ const MenuBar = () => {
             window.removeEventListener('storage', handleStorageChange);
         };
     }, []);
-
+  
     const loadCartItems = () => {
         const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
         setCartItems(storedCartItems);
@@ -44,9 +50,22 @@ const MenuBar = () => {
         loadCartItems();
     };
 
-    const handleLogout = () => {
-        // Implement logout functionality here
-    };
+    const handleLogout = async () => {
+    try {
+        const auth = getAuth(app);
+        // Sign out the current user
+        await signOut(auth);
+        console.log('User logged out successfully');
+        
+        setUsername('');
+            localStorage.removeItem('cartItems');
+  
+        // Redirect to the home page
+        navigate('/home');
+    } catch (error) {
+        console.error('Error logging out:', error.message);
+    }
+};
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: '#add8e6' }}>
@@ -61,7 +80,9 @@ const MenuBar = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                       
+                    <li className="nav-item">
+                            <Link className="nav-link active" to="orderlist">Order List</Link>
+                        </li>
                         <li className="nav-item">
                             <Link className="nav-link active" to="login">Login</Link>
                         </li>
@@ -71,16 +92,20 @@ const MenuBar = () => {
                         {/* <li className="nav-item">
                             <Link className="nav-link active" to="productlist">Product List</Link>
                         </li> */}
+                        <li>
                          {username && (
-                            <span>
-                            <li className="nav-item">
-                                <span className="nav-link active">Hello, {username}</span>
-                            </li>
-                            <li className="nav-item">
+                        <div className="navbar-nav">
+                        
+                        <span className="nav-item">
                             <Link className="nav-link active" to="productpage">Products</Link>
-                            </li>
                         </span>
+                        <span className="nav-item">
+                            <span className="nav-link active"><b>Hello, {username && username.split('@')[0]}....</b></span>
+                        </span>
+                    </div>
+                    
                         )}
+                        </li>
                     </ul>
                     <div>
                         <Link to="cart">
@@ -101,8 +126,9 @@ const MenuBar = () => {
 
                          <Dropdown.Menu className="ms-auto">
                              <Dropdown.Item href="#">Profile</Dropdown.Item>
-                           <Dropdown.Item href="#">My Orders</Dropdown.Item>
-                             <Dropdown.Item href="./logout">Logout</Dropdown.Item>
+                           <Dropdown.Item href="./orderlist">My Orders</Dropdown.Item>
+                           <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+           
                         </Dropdown.Menu>
                      </Dropdown>
                    

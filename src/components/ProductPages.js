@@ -78,7 +78,7 @@ const ProductPages = () => {
                 }
                 `}
             </style>
-            <h1>Product Pages</h1>
+            <h1>Explore Our Products</h1>
            
             <div className="search-bar-container">
                 <input

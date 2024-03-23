@@ -9,7 +9,7 @@ const Home = () => {
             <div style={{ minHeight: "100vh" }}>
                 <div style={{ minHeight: "100vh" }} className="row">
                 <div className="col">
-                        <Link to="/productpage"  style={{ textDecoration:'underline' }} className="display-2 text-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Start shopping...</Link>
+                        <Link to="/login"  style={{ textDecoration:'underline' }} className="display-2 text-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Your Gateway to Greatness...</Link>
                     </div>
                     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">

@@ -6,9 +6,14 @@ const Cart = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        setCartItems(storedCartItems);
-    }, []);
+        try {
+          const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+          setCartItems(storedCartItems);
+        } catch (error) {
+          console.error('Error retrieving cart items from localStorage:', error);
+          // Optionally display a user-friendly error message
+        }
+      }, []);
 
     const removeFromCart = (index) => {
         const updatedCartItems = [...cartItems];
@@ -67,6 +72,7 @@ const Cart = () => {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                         {cartItems.map((item, index) => (
                             <div key={index} style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
+                               {/* <p>{item.userId}</p> */}
                                 <p>{item.title}</p>
                                 <img src={item.image} alt={item.title} style={{ maxWidth: '50px' }} />
                                 <p>Price: ₹{item.price}/-</p>
