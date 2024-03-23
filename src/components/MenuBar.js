@@ -59,7 +59,7 @@ const MenuBar = () => {
         
         setUsername('');
             localStorage.removeItem('cartItems');
-  
+            localStorage.removeItem('cartItemsForCheckout');
         // Redirect to the home page
         navigate('/home');
     } catch (error) {
@@ -80,9 +80,7 @@ const MenuBar = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li className="nav-item">
-                            <Link className="nav-link active" to="orderlist">Order List</Link>
-                        </li>
+                    
                         <li className="nav-item">
                             <Link className="nav-link active" to="login">Login</Link>
                         </li>
