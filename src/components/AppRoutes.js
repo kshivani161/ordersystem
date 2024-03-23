@@ -9,6 +9,7 @@ import ProductDetails from './ProductDetails';
 import Cart from './Cart';
 import PaymentPage from './PaymentPage';
 import OrderList from './OrderList';
+import TrackDetails from './TrackDetails';
 
 
 const AppRoutes = () => {
@@ -31,6 +32,8 @@ const AppRoutes = () => {
                         <Route exact path='payment' element={<PaymentPage />} />
                         <Route exact path='productpage' element={<ProductPages />} />
                         <Route exact path='' element={<Home />} />
+                        <Route exact path='trackdetails' element={<TrackDetails />} />
+
 
                     </Routes>
                 </div>
