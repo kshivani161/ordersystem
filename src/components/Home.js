@@ -1,15 +1,11 @@
-import { Link, useParams } from "react-router-dom";
-import React, {  } from 'react';
-import MenuBar from "./MenuBar";
-
-
+import { Link } from "react-router-dom";
+import {auth,firestore} from "../firebase/firebase";
+ 
 const Home = () => {
-
-    const userParam = useParams();
-return (
+   
+ 
+    return (
         <>
-            <MenuBar user={userParam.username} />
-            <div style={{ minHeight: "100vh" }}></div>
             <div style={{ minHeight: "100vh" }}>
                 <div style={{ minHeight: "100vh" }} className="row">
                 <div className="col">

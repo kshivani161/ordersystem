@@ -7,13 +7,16 @@ import Logout from './Logout';
 import ProductList from './ProductList';
 import ProductPages from './ProductPages';
 import ProductDetails from './ProductDetails';
+import Cart from './Cart';
+import PaymentPage from './PaymentPage';
+
 
 const AppRoutes = () => {
     return (
         <>
             <BrowserRouter>
                 <>
-                    {/* <MenuBar /> */}
+                    <MenuBar /> 
                 </>
                 <div className='container'>
                     <Routes >
@@ -24,6 +27,8 @@ const AppRoutes = () => {
                         <Route exact path='login' element={<Login />} />
                         <Route exact path='logout' element={<Logout />} />
                         <Route exact path='register' element={<Register />} />
+                        <Route exact path='cart' element={<Cart />} />
+                        <Route exact path='payment' element={<PaymentPage />} />
                         <Route exact path='productpage' element={<ProductPages />} />
                         <Route exact path='' element={<Home />} />
 
