@@ -9,7 +9,7 @@ const Home = () => {
             <div style={{ minHeight: "100vh" }}>
                 <div style={{ minHeight: "100vh" }} className="row">
                 <div className="col">
-                        <Link to="/login"  style={{ textDecoration:'underline' }} className="display-2 text-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Your Gateway to Greatness...</Link>
+                        <Link to="/login"  style={{ textDecoration:'underline' }} className="display-2 text-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"><h1 style={{color:'#E75480'}}>Your Gateway to Greatness...</h1></Link>
                     </div>
                     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
@@ -22,32 +22,32 @@ const Home = () => {
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="
-https://tse4.mm.bing.net/th/id/OIP.9ULXa5BVldSwXLFLUFP2LAHaEK?w=295&h=180&c=7&r=0&o=5&dpr=1.5&pid=1." class="border-bottom-0"  height="600px" width="100%" alt="image1"/>
+https://tse4.mm.bing.net/th/id/OIP.9ULXa5BVldSwXLFLUFP2LAHaEK?w=295&h=180&c=7&r=0&o=5&dpr=1.5&pid=1." class="border-bottom-0"  height="500px" width="100%" alt="image1"/>
                                     <div class="carousel-caption d-none d-md-block">
-                                        <h5>First slide label</h5>
-                                        <p>Some representative placeholder content for the first slide.</p>
+                                        <h4 style={{color : 'black'}}>Electronics</h4>
+                                        <h5 style={{color : 'black'}}>Transforming dreams into reality, one gadget at a time.</h5>
                                     </div>
                             </div>
                             <div class="carousel-item">
-                                <img src="https://www.omjewellers.com.au/wp-content/uploads/2022/03/jewellery-accessories.jpg"  class="border-bottom-0" height="600px" width="100%" alt="image2"/>
+                                <img src="https://www.omjewellers.com.au/wp-content/uploads/2022/03/jewellery-accessories.jpg"  class="border-bottom-0" height="500px" width="100%" alt="image2"/>
                                     <div class="carousel-caption d-none d-md-block">
-                                        <h5>Second slide label</h5>
-                                        <p>Some representative placeholder content for the second slide.</p>
+                                        <h4 >jewellery</h4>
+                                        <h5 >Jewellery is a reflection of your personality</h5>
                                     </div>
                             </div>
                             <div class="carousel-item">
                                 <img src="
-https://tse2.mm.bing.net/th/id/OIP.IRdX1EO0AyffSrjdC3gQ5QHaFI?w=202&h=140&c=7&r=0&o=5&dpr=1.5&pid=1.7" class="border-bottom-0" height="600px" width="100%" alt="image3"/>
+https://tse2.mm.bing.net/th/id/OIP.IRdX1EO0AyffSrjdC3gQ5QHaFI?w=202&h=140&c=7&r=0&o=5&dpr=1.5&pid=1.7" class="border-bottom-0" height="400px" width="100%" alt="image3"/>
                                     <div class="carousel-caption d-none d-md-block">
-                                        <h5>Third slide label</h5>
-                                        <p>Some representative placeholder content for the third slide.</p>
+                                        <h5 style={{color:'black',background:'white'}}>Mens Category</h5>
+                                        <h6 style={{color:'black',background:'white'}}>Confidence is the best outfit. Rock it and own it</h6>
                                     </div>
                             </div>
                             <div class="carousel-item">
-                                <img src="https://tse1.mm.bing.net/th/id/OIP.Kxexs_egU6_vTV4NJf9o7wHaFk?w=202&h=152&c=7&r=0&o=5&dpr=1.5&pid=1.7" class="border-bottom-0" height="600px" width="100%" alt="image4"/>
+                                <img src="https://tse1.mm.bing.net/th/id/OIP.Kxexs_egU6_vTV4NJf9o7wHaFk?w=202&h=152&c=7&r=0&o=5&dpr=1.5&pid=1.7" class="border-bottom-0" height="400px" width="100%" alt="image4"/>
                                     <div class="carousel-caption d-none d-md-block">
-                                        <h5>Third slide label</h5>
-                                        <p>Some representative placeholder content for the third slide.</p>
+                                        <h5 style={{color:'black',background:'white'}}>Womens Category</h5>
+                                        <h6 style={{color:'black', background:'white'}}>Dress like you're already famous</h6>
                                     </div>
                             </div>
                         </div>

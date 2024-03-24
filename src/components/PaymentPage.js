@@ -1,247 +1,195 @@
 import React, { useState } from 'react';
+import { collection, addDoc } from 'firebase/firestore';
+import { firestore } from '../firebase/firebase';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCreditCard, faAddressCard, faPhone, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const PaymentPage = () => {
-    const [name, setName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [email, setEmail] = useState('');
-    const [location, setLocation] = useState('');
-    const [landmark, setLandmark] = useState('');
-    const [pincode, setPincode] = useState('');
-    const [paymentOption, setPaymentOption] = useState('');
-    const [upiId, setUpiId] = useState('');
-    const [cardNumber, setCardNumber] = useState('');
-    const [expiryDate, setExpiryDate] = useState('');
-    const [cvv, setCvv] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState(false);
- 
-    const handlePayment = () => {
-        if (!name || !phoneNumber || !email || !location || !landmark || !pincode || !paymentOption) {
-            setError('Please fill in all address details and select a payment option.');
-            return;
-        }
-    
-        if (paymentOption === 'UPI' && !upiId) {
-            setError('Please fill in your UPI ID.');
-            return;
-        }
-    
-        if (paymentOption === 'Card' && (!cardNumber || !expiryDate || !cvv)) {
-            setError('Please fill in your card details.');
-            return;
-        }
-    
-        // Simulating payment processing
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            setSuccess(true);
-    
-            // Clear cart items after successful payment
-            localStorage.removeItem('cartItems');
-        }, 2000);
-    };
-    
- 
-    return (
-        <div style={styles.container}>
-            <h1 style={styles.heading}>Payment Page</h1>
-            <form style={styles.form}>
-                {/* Address Details */}
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Name"
-                    style={styles.input}
-                />
-                <input
-                    type="text"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="Phone Number"
-                    style={styles.input}
-                />
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email"
-                    style={styles.input}
-                />
-                <input
-                    type="text"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    placeholder="Location"
-                    style={styles.input}
-                />
-                <input
-                    type="text"
-                    value={landmark}
-                    onChange={(e) => setLandmark(e.target.value)}
-                    placeholder="Landmark"
-                    style={styles.input}
-                />
-                <input
-                    type="text"
-                    value={pincode}
-                    onChange={(e) => setPincode(e.target.value)}
-                    placeholder="Pincode"
-                    style={styles.input}
-                />
- 
-                {/* Payment Options */}
-                <h2 style={styles.paymentHeading}>Payment Options</h2>
-                <div style={styles.paymentOptions}>
-                    <label>
-                        <input
-                            type="radio"
-                            value="COD"
-                            onChange={() => setPaymentOption('COD')}
-                            checked={paymentOption === 'COD'}
-                        />
-                        Cash on Delivery
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            value="UPI"
-                            onChange={() => setPaymentOption('UPI')}
-                            checked={paymentOption === 'UPI'}
-                        />
-                        UPI
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            value="Card"
-                            onChange={() => setPaymentOption('Card')}
-                            checked={paymentOption === 'Card'}
-                        />
-                        Card
-                    </label>
-                </div>
- 
-                {/* UPI ID input */}
-                {paymentOption === 'UPI' && (
-                    <>
-                        <h3 style={styles.upiHeading}>UPI Payment Options</h3>
-                        <select
-                            value={upiId}
-                            onChange={(e) => setUpiId(e.target.value)}
-                            style={styles.input}
-                        >
-                            <option value="">Select UPI Provider</option>
-                            <option value="gpay">Google Pay (GPay)</option>
-                            <option value="phonepe">PhonePe</option>
-                            <option value="paytm">Paytm</option>
-                        </select>
-                    </>
-                )}
- 
-                {/* Card Details */}
-                {paymentOption === 'Card' && (
-                    <>
-                        <input
-                            type="text"
-                            value={cardNumber}
-                            onChange={(e) => setCardNumber(e.target.value)}
-                            placeholder="Card Number"
-                            style={styles.input}
-                        />
-                        <input
-                            type="text"
-                            value={expiryDate}
-                            onChange={(e) => setExpiryDate(e.target.value)}
-                            placeholder="Expiry Date"
-                            style={styles.input}
-                        />
-                        <input
-                            type="text"
-                            value={cvv}
-                            onChange={(e) => setCvv(e.target.value)}
-                            placeholder="CVV"
-                            style={styles.input}
-                        />
-                    </>
-                )}
- 
-                {/* Payment Button */}
-                <button
-                    type="button"
-                    onClick={handlePayment}
-                    style={{ ...styles.payNowButton, backgroundColor: loading ? '#ccc' : '#007bff' }}
-                    disabled={loading}
-                >
-                    {loading ? 'Processing...' : 'Pay Now'}
-                </button>
- 
-                {/* Error and Success Messages */}
-                {error && <p style={styles.error}>{error}</p>}
-                {success && <p style={styles.success}>Payment successful!</p>}
-                
-            </form>
-        </div>
-    );
+const PaymentPage = (props) => {
+  const navigate = useNavigate();
+  const locationState = useLocation().state;
+  const totalAmount = locationState ? locationState.totalAmount : 0;
+  const [formData, setFormData] = useState({
+    cardNumber: '',
+    expiryDate: '',
+    cvv: '',
+    username: '',
+    address: '',
+    phoneNumber: '',
+    totalAmount: ''
+  });
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [redirectToProducts, setRedirectToProducts] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (formData.cardNumber.length !== 16) {
+      setError('Card number must be 16 digits long.');
+      return;
+    }
+    if (!/^\d{2}\/\d{2}$/.test(formData.expiryDate)) {
+      setError('Expiry date must be in MM/YY format.');
+      return;
+    }
+    if (formData.cvv.length !== 3) {
+      setError('CVV must be 3 digits long.');
+      return;
+    }
+    setError('');
+    try {
+      const paymentRef = collection(firestore, 'payments');
+      await addDoc(paymentRef, {
+        ...formData,
+        totalAmount: { totalAmount },
+        timestamp: new Date().toISOString()
+      });
+      console.log('Payment data saved successfully');
+      setSuccessMessage('Payment successful.');
+      clearForm();
+    } catch (error) {
+      console.error('Error saving payment data:', error);
+    }
+  };
+
+  const clearForm = () => {
+    setFormData({
+      cardNumber: '',
+      expiryDate: '',
+      cvv: '',
+      username: '',
+      address: '',
+      phoneNumber: '',
+      totalAmount: 0,
+    });
+  };
+
+  const handleBackToShopping = () => {
+    localStorage.removeItem('cartItems');
+    setRedirectToProducts(true);
+  };
+
+  if (redirectToProducts) {
+    navigate("/productpage")
+  }
+
+  return (
+    <div className="container-fluid d-flex justify-content-center align-items-center" style={{ backgroundImage: `url('https://tse1.mm.bing.net/th/id/OIP.hlLTM58bxdS5iHDN6w6X6QHaFj?w=244&h=183&c=7&r=0&o=5&dpr=1.5&pid=1.7')`, backgroundSize: 'cover', minHeight: '100vh' }}>
+      <div className="container p-4" style={{ maxWidth: '400px' }}>
+        <h2 className="text-center text-white mb-4">Payment</h2>
+        <form onSubmit={handleSubmit}>
+          {successMessage && <p className="text-success">{successMessage}</p>}
+          <div className="mb-3">
+            <label htmlFor="cardNumber" className="form-label text-white">
+              <FontAwesomeIcon icon={faCreditCard} />
+              &nbsp; Card Number:
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="cardNumber"
+              name="cardNumber"
+              value={formData.cardNumber}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="expiryDate" className="form-label text-white">
+              <FontAwesomeIcon icon={faAddressCard} />
+              &nbsp; Expiry Date (MM/YY):
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="expiryDate"
+              name="expiryDate"
+              value={formData.expiryDate}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="cvv" className="form-label text-white">
+              <FontAwesomeIcon icon={faPhone} />
+              &nbsp; CVV:
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="cvv"
+              name="cvv"
+              value={formData.cvv}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label text-white">
+              <FontAwesomeIcon icon={faUser} />
+              &nbsp; Username:
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="address" className="form-label text-white">
+              <FontAwesomeIcon icon={faAddressCard} />
+              &nbsp; Address:
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="phoneNumber" className="form-label text-white">
+              <FontAwesomeIcon icon={faPhone} />
+              &nbsp; Phone Number:
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="phoneNumber"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          {error && <p className="text-danger">{error}</p>}
+          <button type="submit" className="btn btn-primary">Pay {totalAmount}Rs</button>
+        </form>
+        <button
+          className="btn btn-outline-primary mt-3"
+          onClick={handleBackToShopping}
+        >
+          Back to Shopping
+        </button>
+      </div>
+    </div>
+  );
 };
- 
-const styles = {
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '20px',
-    },
-    heading: {
-        fontSize: '24px',
-        marginBottom: '20px',
-    },
-    form: {
-        width: '400px',
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    input: {
-        margin: '5px 0',
-        padding: '10px',
-        borderRadius: '5px',
-        border: '1px solid #ccc',
-        fontSize: '16px',
-    },
-    paymentHeading: {
-        fontSize: '20px',
-        marginTop: '20px',
-        marginBottom: '10px',
-    },
-    paymentOptions: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    upiHeading: {
-        fontSize: '18px',
-        marginTop: '20px',
-        marginBottom: '10px',
-    },
-    payNowButton: {
-        backgroundColor: '#007bff',
-        color: '#fff',
-        border: 'none',
-        padding: '10px 20px',
-        borderRadius: '5px',
-        fontSize: '16px',
-        marginTop: '20px',
-        cursor: 'pointer',
-    },
-    error: {
-        color: 'red',
-        marginTop: '10px',
-    },
-    success: {
-        color: 'green',
-        marginTop: '10px',
-    },
-};
- 
+
 export default PaymentPage;

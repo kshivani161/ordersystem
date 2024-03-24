@@ -39,6 +39,11 @@ const MenuBar = () => {
             window.removeEventListener('storage', handleStorageChange);
         };
     }, []);
+    // const filteredProducts = products.filter(product => {
+    //     const formattedSearchQuery = searchQuery.toLowerCase().replace(/\s/g, '');
+    //     const formattedProductTitle = product.title.toLowerCase().replace(/\s/g, '');
+    //     return formattedProductTitle.includes(formattedSearchQuery) && (filterCategory === '' || product.category === filterCategory);
+    // });
   
     const loadCartItems = () => {
         const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -105,6 +110,18 @@ const MenuBar = () => {
                         )}
                         </li>
                     </ul>
+                      {/* <form className="d-flex" role="search"> 
+                    <div className="search-bar-container">
+                 <input
+                     type="text"
+                     value={searchQuery}
+                     onChange={(e) => setSearchQuery(e.target.value)}
+                     placeholder="Search products..."
+                     className="search-bar"
+                 />
+                <button className="search-button">Search</button>
+            </div>
+                    </form> */}
                     <div>
                         <Link to="cart">
                             <FontAwesomeIcon icon={faShoppingCart} /> 
@@ -123,10 +140,10 @@ const MenuBar = () => {
                         </Dropdown.Toggle>
 
                          <Dropdown.Menu className="ms-auto">
-                             <Dropdown.Item href="#">Profile</Dropdown.Item>
+                             <Dropdown.Item href="./profile">Profile</Dropdown.Item>
                            <Dropdown.Item href="./orderlist">My Orders</Dropdown.Item>
                            <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
-           
+                        <Dropdown.Item href="./contact">Contact Support</Dropdown.Item>
                         </Dropdown.Menu>
                      </Dropdown>
                    

@@ -26,6 +26,10 @@ const Cart = () => {
     if (newQuantity <= 0) {
       return; // Prevent negative or zero quantities (optional)
     }
+    if(newQuantity>cartItems[index].rating.count){
+      alert("Product is Out Of Stock Please Try Again Later");
+      navigate("/productpage");
+    }
  
     const updatedCartItems = [...cartItems];
     updatedCartItems[index].quantity = newQuantity;
@@ -74,6 +78,7 @@ const Cart = () => {
                 <p>{item.title}</p>
                 <img src={item.image} alt={item.title} style={{ maxWidth: '50px' }} />
                 <p>Price: ₹{item.price}/-</p>
+                <p>Available Products:{item.rating.count}</p>
                 <p>Quantity:
                   <button onClick={() => decrementQuantity(index)}>-</button>
                   {item.quantity}

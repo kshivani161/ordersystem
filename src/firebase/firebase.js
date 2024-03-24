@@ -68,4 +68,55 @@ export const firestore = getFirestore(app);
 
 export { app };
 
+// const functions = require('firebase-functions');
+// const admin = require('firebase-admin');
+// const nodemailer = require('nodemailer');
+
+
+// // Specify the path to your service account key file
+// const serviceAccount = require('.C:/ShivaniAngular/serviceaccount.json');
+
+// // Initialize Firebase Admin SDK with the service account credentials
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount)
+// });
+// admin.initializeApp();
+// const firestore1 = admin.firestore();
+
+
+// const transporter = nodemailer.createTransport({
+//   service: 'Gmail',
+//   auth: {
+//     user: 'shivani@gmail.com',
+//     pass: '123456789',
+//   },
+// });
+
+// exports.sendDeliveryNotification = functions.firestore
+//   .document('deliveries/{deliveryId}')
+//   .onUpdate(async (change, context) => {
+//     const newData = change.after.data();
+//     const previousData = change.before.data();
+
+//     // Check if delivery status changed to 'Completed'
+//     if (newData.status === 'Completed' && previousData.status !== 'Completed') {
+//       const recipientEmail = newData.recipientEmail;
+//       const message = 'Your delivery has been completed.';
+
+//       const mailOptions = {
+//         from: 'YOUR_GMAIL_EMAIL',
+//         to: recipientEmail,
+//         subject: 'Delivery Notification',
+//         text: message,
+//       };
+
+//       try {
+//         // Send email notification
+//         await transporter.sendMail(mailOptions);
+//         console.log('Email notification sent successfully.');
+//       } catch (error) {
+//         console.error('Error sending email notification:', error);
+//       }
+//     }
+//   });
 
