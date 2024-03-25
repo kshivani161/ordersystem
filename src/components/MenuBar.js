@@ -142,8 +142,9 @@ const MenuBar = () => {
                          <Dropdown.Menu className="ms-auto">
                              <Dropdown.Item href="./profile">Profile</Dropdown.Item>
                            <Dropdown.Item href="./orderlist">My Orders</Dropdown.Item>
-                           <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                           
                         <Dropdown.Item href="./contact">Contact Support</Dropdown.Item>
+                        <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                         </Dropdown.Menu>
                      </Dropdown>
                    

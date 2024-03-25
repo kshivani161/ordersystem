@@ -25,15 +25,32 @@ const PaymentPage = (props) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+  
+    if (name === 'cardNumber') {
+      // Remove non-digit characters from the input value
+      const newValue = value.replace(/\D/g, '');
+  
+      // Format the value in groups of 4 digits with hyphens
+      const formattedValue = newValue
+        .replace(/(\d{4})(?=\d)/g, '$1-')
+        .substring(0, 19); // Limit to 19 characters including hyphens
+  
+      setFormData(prevState => ({
+        ...prevState,
+        [name]: formattedValue
+      }));
+    } else {
+      // For other inputs, update the state normally
+      setFormData(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (formData.cardNumber.length !== 16) {
+    if (formData.cardNumber.replace(/\D/g, '').length !== 16) {
       setError('Card number must be 16 digits long.');
       return;
     }
@@ -41,7 +58,7 @@ const PaymentPage = (props) => {
       setError('Expiry date must be in MM/YY format.');
       return;
     }
-    if (formData.cvv.length !== 3) {
+    if (formData.cvv.replace(/\D/g, '').length !== 3) {
       setError('CVV must be 3 digits long.');
       return;
     }
@@ -83,7 +100,7 @@ const PaymentPage = (props) => {
   }
 
   return (
-    <div className="container-fluid d-flex justify-content-center align-items-center" style={{ backgroundImage: `url('https://tse1.mm.bing.net/th/id/OIP.hlLTM58bxdS5iHDN6w6X6QHaFj?w=244&h=183&c=7&r=0&o=5&dpr=1.5&pid=1.7')`, backgroundSize: 'cover', minHeight: '100vh' }}>
+    <div className="container-fluid d-flex justify-content-center align-items-center" style={{ backgroundImage: `url('https://th.bing.com/th/id/R.f4657afbe00df02f1ff2602251312148?rik=go2XJgIAsUHpGA&riu=http%3a%2f%2fwallpapercave.com%2fwp%2foePE9lU.jpg&ehk=C0Gkc0e39yEuSYiHUy%2fiEOonYr8%2bdTbHkJWvCd8y7to%3d&risl=&pid=ImgRaw&r=0')`, backgroundSize: 'cover', minHeight: '100vh' }}>
       <div className="container p-4" style={{ maxWidth: '400px' }}>
         <h2 className="text-center text-white mb-4">Payment</h2>
         <form onSubmit={handleSubmit}>
@@ -100,6 +117,7 @@ const PaymentPage = (props) => {
               name="cardNumber"
               value={formData.cardNumber}
               onChange={handleChange}
+              maxLength={19} // Maximum length for formatted card number
               required
             />
           </div>
@@ -115,6 +133,7 @@ const PaymentPage = (props) => {
               name="expiryDate"
               value={formData.expiryDate}
               onChange={handleChange}
+              maxLength={5} // Maximum length for expiry date
               required
             />
           </div>
@@ -130,6 +149,7 @@ const PaymentPage = (props) => {
               name="cvv"
               value={formData.cvv}
               onChange={handleChange}
+              maxLength={3} // Maximum length for CVV
               required
             />
           </div>
@@ -180,7 +200,7 @@ const PaymentPage = (props) => {
           </div>
           {error && <p className="text-danger">{error}</p>}
           <button type="submit" className="btn btn-primary">Pay {totalAmount}Rs</button>
-        </form>
+          </form>
         <button
           className="btn btn-outline-primary mt-3"
           onClick={handleBackToShopping}
@@ -193,3 +213,4 @@ const PaymentPage = (props) => {
 };
 
 export default PaymentPage;
+
