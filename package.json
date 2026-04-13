@@ -2,7 +2,7 @@
   "name": "orderapp",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://kshivani161.github.io/ordersystem",
+  "homepage": "https://kshivani161.github.io/ordersystem",
   "dependencies": {
     "@firebase/app": "0.9.29",
     "@firebase/auth": "1.6.2",
